@@ -1,0 +1,892 @@
+/* Importing Web Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@600;700&display=swap');
+
+/* ============================================================================
+   DESIGN TOKENS 
+   Centralized design system using CSS variables for easy theming
+   ============================================================================ */
+:root {
+  /* Color Palette - Mountain and literary-inspired
+     --bg: Main background color (warm cream)
+     --fg: Primary text color (dark gray for readability)
+     --muted: Secondary text/borders (balanced gray)
+     --brand: Primary brand color (vibrant teal - represents mountains)
+     --brand-contrast: Text color on brand backgrounds (white)
+     --brand-dark: Darker brand variant for hover states
+     --accent: Accent color (warm amber - represents warmth/sacrifice)
+     --accent-light: Lighter accent variant (golden yellow)
+     --card-bg: Card background (pure white for contrast)
+     --nav-bg: Navigation background (dark teal)
+     --nav-active: Active navigation state (bright amber)
+     --shadow: Default box shadow color (subtle teal tint)
+     --shadow-hover: Enhanced shadow on hover
+    */
+  --bg: #faf8f5;
+  --fg: #2a2a2a;
+  --muted: #6b7280;
+  --brand: #1e7a8c;
+  --brand-contrast: #ffffff;
+  --brand-dark: #155c6a;
+  --accent: #d97706;
+  --accent-light: #fbbf24;
+  --card-bg: #ffffff;
+  --nav-bg: #134e5e;
+  --nav-active: #f59e0b;
+  --shadow: rgba(30, 122, 140, 0.12);
+  --shadow-hover: rgba(30, 122, 140, 0.25);
+
+  /* Typography Scale - Modular scale for hierarchy
+     --font-sans: Sans-serif stack for headings
+     --font-serif: Serif stack for body text
+     --font-mono: Monospace for code elements
+     --h1 to --body: Font size tokens for consistent scaling
+  */
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+  --font-serif: 'Merriweather', serif;
+  --font-mono: 'Courier New', monospace;
+  --h1: 2.75rem;
+  --h2: 2rem;
+  --h3: 1.5rem;
+  --body: 1.125rem;
+
+  /* Spacing Scale - Consistent spacing system
+     Uses multiples of 0.5rem for vertical rhythm
+     --space-1 (0.5rem) to --space-5 (3rem)
+   */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+}
+
+/* Dark Mode Theme Override
+   Adjusts color tokens for users who prefer dark color schemes
+   Maintains contrast ratios for accessibility
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a1a;
+    --fg: #e5e5e5;
+    --muted: #9ca3af;
+    --brand: #3b9db0;
+    --brand-contrast: #ffffff;
+    --brand-dark: #2d7a8a;
+    --accent: #f59e0b;
+    --accent-light: #fbbf24;
+    --card-bg: #262626;
+    --nav-bg: #1e4d5c;
+    --nav-active: #fbbf24;
+    --shadow: rgba(59, 157, 176, 0.2);
+    --shadow-hover: rgba(59, 157, 176, 0.35);
+  }
+}
+
+/* ============================================================================
+   BASE RESET & TYPOGRAPHY RHYTHM
+   Normalizes browser defaults and establishes vertical rhythm
+   ============================================================================ */
+
+/* Universal Box Sizing Reset
+   Ensures padding and border are included in element width/height
+ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Base Styles
+   Sets up the foundational typography and layout container
+   - Max-width prevents overly long line lengths
+   - Line-height 1.7 provides comfortable reading rhythm
+   - Center alignment with auto margins
+ */
+body {
+  font-family: var(--font-serif);
+  font-size: var(--body);
+  line-height: 1.7;
+  color: var(--fg);
+  background-color: var(--bg);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-3);
+}
+
+/* Vertical Rhythm for Content Blocks
+   Consistent spacing between major sections and text elements
+ */
+section, article { 
+  margin-bottom: var(--space-4); 
+}
+
+p, ul, ol, dl { 
+  margin-bottom: var(--space-2); 
+}
+
+/* ============================================================================
+   LAYOUT - Header, Navigation, Main, Footer
+   Uses Flexbox and Grid for responsive layouts
+   ============================================================================ */
+
+/* Header Layout
+   Flexbox allows navigation to wrap on smaller screens
+   Bottom border provides visual separation
+*/
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 3px solid var(--brand);
+  margin-bottom: var(--space-4);
+}
+
+/* Header Title Styling
+   Removes default margin to prevent layout shifts
+*/
+header h1 {
+  color: var(--brand);
+  margin-bottom: 0;
+}
+
+/* Navigation List Layout
+   Flexbox with gap property for consistent spacing
+   Wraps to vertical stack on mobile (via flex-wrap)
+ */
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: var(--space-1);
+}
+
+nav li {
+  margin: 0;
+}
+
+/* Navigation Link Styling
+   Block display for full clickable area
+   Background colors distinguish from content links
+   Smooth transitions for interactive states
+*/
+nav a {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  background: var(--nav-bg);
+  color: var(--brand-contrast);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+/* Navigation Hover State
+   Lift effect with transform and enhanced shadow
+*/
+nav a:hover {
+  background: var(--brand-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-hover);
+}
+
+/* Navigation Focus State
+   High-contrast outline for keyboard navigation (accessibility)
+*/
+nav a:focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Active Page Indicator
+   aria-current="page" attribute styled distinctly
+   Uses accent color to show current location
+  */
+nav a[aria-current="page"] {
+  background: var(--nav-active);
+  color: var(--fg);
+}
+
+/* Main Content Grid
+   Single column by default
+   Grid gap provides consistent spacing between sections
+*/
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+/* Footer Styling
+   Center-aligned with muted color for hierarchy
+   Top border provides visual closure
+ */
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: var(--space-3) 0;
+  border-top: 2px solid var(--muted);
+  margin-top: var(--space-5);
+  font-size: 0.95rem;
+}
+
+/* ============================================================================
+   TYPOGRAPHY - Headings, Links, Inline Elements
+   Establishes clear visual hierarchy and semantic styling
+   ============================================================================ */
+
+/* Heading Styles
+   Sans-serif font for contrast with body text
+   Reduced line-height for tighter heading spacing
+   Progressive sizing creates hierarchy
+   */
+h1 { 
+  font-family: var(--font-sans); 
+  font-size: var(--h1); 
+  margin-bottom: var(--space-3); 
+  font-weight: 700; 
+  line-height: 1.2;
+}
+
+h2 { 
+  font-family: var(--font-sans); 
+  font-size: var(--h2); 
+  margin-bottom: var(--space-2); 
+  color: var(--brand);
+  line-height: 1.3;
+}
+
+h3 { 
+  font-family: var(--font-sans); 
+  font-size: var(--h3); 
+  margin-bottom: var(--space-2); 
+  color: var(--brand-dark);
+  line-height: 1.4;
+}
+
+/* Content Links
+   Excludes navigation links because they are styled separately above
+   Underline with accent color for visual interest
+   Smooth color transitions on hover
+ */
+main a:not(nav a) { 
+  color: var(--brand); 
+  text-decoration: underline;
+  text-decoration-color: var(--accent-light);
+  text-decoration-thickness: 2px;
+  transition: all 0.3s ease; 
+}
+
+main a:not(nav a):hover { 
+  color: var(--brand-dark); 
+  text-decoration-color: var(--accent);
+}
+
+main a:not(nav a):focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Inline Semantic Elements
+   Styles for code, keyboard input, sample output
+   Background highlights these technical elements
+ */
+code, kbd, samp { 
+  font-family: var(--font-mono); 
+  background: var(--accent-light);
+  color: var(--fg);
+  padding: 0.2em 0.5em; 
+  border-radius: 4px; 
+  font-size: 0.9em;
+}
+
+/* Abbreviation Styling
+   Dotted border indicates hover tooltip available
+   Help cursor signals additional information
+*/
+abbr { 
+  border-bottom: 2px dotted var(--accent); 
+  cursor: help; 
+  text-decoration: none;
+}
+
+/* Highlighted Text
+   Yellow background for marked/highlighted content
+*/
+mark { 
+  background: var(--accent-light); 
+  color: var(--fg); 
+  padding: 0.1em 0.4em; 
+  border-radius: 3px; 
+}
+
+/* Bold/Strong Text
+   Uses darker brand color for emphasis
+ */
+b, strong {
+  color: var(--brand-dark);
+  font-weight: 700;
+}
+
+/* Italic/Emphasis Text
+   Subtle brand color for semantic emphasis
+*/
+i, em {
+  color: var(--brand);
+}
+
+/* ============================================================================
+   COMPONENTS - Cards, Tables, Media, Interactive Elements
+   Reusable component patterns with consistent styling
+   ============================================================================ */
+
+/* Card Component
+   Elevated container for grouped content
+   Features:
+   - Staggered slide-in animation on page load
+   - Hover effect with lift and enhanced shadow
+   - Left border accent for visual interest
+   - Smooth cubic-bezier transitions
+*/
+.card {
+  padding: var(--space-3);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
+  background: var(--card-bg);
+  border-left: 4px solid var(--brand);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+/* Staggered Animation Delays
+   Each card animates in sequence for polished entrance
+   Creates cascading effect on page load
+   */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Card Hover State
+   Lifts card up and changes accent color
+   Enhanced shadow provides depth
+*/
+.card:hover { 
+  transform: translateY(-8px); 
+  box-shadow: 0 12px 24px var(--shadow-hover); 
+  border-left-color: var(--accent);
+}
+
+/* Table Styling
+   Responsive table with proper semantics preserved
+   Collapsed borders and rounded corners
+*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--shadow);
+  margin-bottom: var(--space-3);
+}
+
+/* Table Responsive Wrapper
+   Allows horizontal scrolling on small screens
+   Prevents table from breaking layout
+*/
+section:has(table) {
+  overflow-x: auto;
+}
+
+/* Table Caption
+   Positioned above table, left-aligned
+   Uses heading font for consistency
+*/
+caption {
+  caption-side: top;
+  padding: var(--space-2);
+  font-weight: 700;
+  font-family: var(--font-sans);
+  color: var(--brand);
+  text-align: left;
+  font-size: 1.1rem;
+}
+
+/* Table Header Styling
+   Brand-colored background for visual hierarchy
+   White text for contrast
+*/
+th {
+  background: var(--brand);
+  color: var(--brand-contrast);
+  padding: var(--space-2);
+  text-align: left;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+/* Table Cell Styling
+   Adequate padding and subtle borders
+*/
+td { 
+  padding: var(--space-2); 
+  border-bottom: 1px solid var(--muted);
+}
+
+/* Striped Table Rows
+   Even rows have subtle background for readability
+   Uses nth-child pseudo-class as required
+*/
+tbody tr:nth-child(even) { 
+  background: rgba(30, 122, 140, 0.05); 
+}
+
+/* Table Row Hover State
+   Highlights current row for better tracking
+*/
+tbody tr:hover {
+  background: rgba(30, 122, 140, 0.1);
+  transition: background 0.2s ease;
+}
+
+/* Table Footer Styling
+   Darker background distinguishes totals/summary row
+ */
+tfoot th {
+  background: var(--brand-dark);
+  font-weight: 700;
+}
+
+/* Figure Element
+   Container for images with captions
+*/
+figure { 
+  margin: var(--space-2) 0; 
+}
+
+/* Picture Element
+   Block display ensures proper layout
+  */
+picture {
+  display: block;
+}
+
+/* Responsive Media Elements
+   Images and video scale to container width
+   Height auto maintains aspect ratio
+   Prevents distortion on different screen sizes
+*/
+img, video { 
+  max-width: 100%; 
+  height: auto; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 12px var(--shadow);
+  display: block;
+}
+
+/* Figure Caption Styling
+   Muted, italic text below images
+   Center-aligned for balance
+*/
+figcaption { 
+  color: var(--muted); 
+  font-style: italic; 
+  margin-top: var(--space-2); 
+  text-align: center; 
+  font-size: 0.95rem;
+}
+
+/* Audio Controls
+   Full width for easy interaction
+   Native browser controls preserved
+   */
+audio {
+  width: 100%;
+  margin: var(--space-2) 0;
+}
+
+/* Details/Summary (Accordion) Styling
+   Interactive disclosure widget
+   Border and shadow provide card-like appearance
+    */
+details { 
+  margin-bottom: var(--space-3); 
+  border: 2px solid var(--brand); 
+  border-radius: 8px; 
+  padding: var(--space-2);
+  background: var(--card-bg);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: all 0.3s ease;
+}
+
+details:hover {
+  box-shadow: 0 4px 12px var(--shadow-hover);
+}
+
+/* Summary Element (Clickable Trigger)
+   Pointer cursor indicates interactivity
+   Bold brand-colored text draws attention
+    */
+summary { 
+  cursor: pointer; 
+  font-weight: 700; 
+  color: var(--brand);
+  padding: var(--space-1);
+  font-family: var(--font-sans);
+  transition: color 0.3s ease;
+}
+
+summary:hover {
+  color: var(--accent);
+}
+
+summary:focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Open Details State
+   Adds spacing when content is revealed
+   Changes summary color to indicate state
+   */
+details[open] summary {
+  margin-bottom: var(--space-2);
+  color: var(--brand-dark);
+}
+
+/* Details Content Spacing
+   Ensures proper spacing of revealed content
+  */
+details p {
+  margin-top: var(--space-2);
+}
+
+/* Dialog Element Styling
+   Quote box for featured text
+   Fixed positioning issue: uses relative + block display
+   This ensures dialog isn't hidden behind other cards
+   */
+dialog { 
+  position: relative;
+  display: block;
+  margin: var(--space-3) 0; 
+  border: 2px solid var(--accent); 
+  border-radius: 8px; 
+  padding: var(--space-3);
+  background: var(--card-bg);
+  box-shadow: 0 4px 12px var(--shadow);
+  max-width: 100%;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* Progress Bar Styling
+   Full-width progress indicator
+   Uses accent-color for theming
+  */
+progress, meter { 
+  width: 100%; 
+  height: 1.5rem; 
+  border-radius: 8px;
+  margin: var(--space-1) 0;
+}
+
+progress {
+  accent-color: var(--brand);
+}
+
+/* Meter Element Styling
+   Visual indicator for measurements/scales
+   */
+meter {
+  accent-color: var(--accent);
+}
+
+/* Definition List Grid Layout
+   Two-column grid: term | definition
+    */
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2);
+}
+
+/* Definition Term Styling
+   Bold, brand-colored terms stand out
+  */
+dt {
+  font-weight: 700;
+  color: var(--brand);
+  font-family: var(--font-sans);
+}
+
+/* Definition Description
+   Removes default left margin from browser styles
+   */
+dd {
+  margin-left: 0;
+}
+
+/* List Styling
+   Indented for hierarchy
+   Adequate spacing between items
+    */
+ul, ol {
+  padding-left: var(--space-4);
+}
+
+li {
+  margin-bottom: var(--space-1);
+}
+
+/* ============================================================================
+   UTILITY CLASSES
+   Single-purpose helper classes for common patterns
+   ============================================================================ */
+
+/* Margin Top Utilities */
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+
+/* Margin Bottom Utilities */
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+
+/* Text Alignment */
+.text-center { text-align: center; }
+
+/* Visually Hidden
+   Hides content visually but keeps it available to screen readers
+   Critical for accessibility (e.g., skip links)
+   */
+.visually-hidden { 
+  position: absolute; 
+  width: 1px; 
+  height: 1px; 
+  margin: -1px; 
+  padding: 0;
+  overflow: hidden; 
+  clip: rect(0,0,0,0); 
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================================
+   STATES & MOTION - Animations and Transitions
+   Smooth, meaningful animations that respect user preferences
+   ============================================================================ */
+
+/* Slide In Up Animation
+   Used for card entrance effects
+   Creates upward motion with fade-in
+   */
+@keyframes slideInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Simple Fade In Animation
+   Used for general content entrance
+   */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+/* Article Fade-In on Page Load
+   Subtle entrance for main content
+   */
+article {
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Universal Focus States
+   Ensures all interactive elements have visible focus indicators
+   Required for keyboard navigation accessibility
+   */
+a:focus, 
+button:focus, 
+summary:focus,
+details:focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Universal Transition
+   Smooth state changes for interactive elements
+  */
+a, button, .card, summary, details, nav a {
+  transition: all 0.3s ease;
+}
+
+/* Reduced Motion Media Query
+   Respects user preference for reduced motion (accessibility)
+   Disables animations for users with vestibular disorders
+   Critical for WCAG compliance
+    */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  /* Reset card animation in reduced motion mode */
+  .card {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* 
+   RESPONSIVE DESIGN - Mobile-First Breakpoints
+   Progressive enhancement from mobile to desktop
+   */
+
+/* Small Screens (Mobile Phones) - Up to 480px
+   Stack navigation vertically
+   Reduce heading sizes
+   Collapse definition list to single column
+*/
+@media (max-width: 480px) {
+  body {
+    padding: var(--space-2);
+  }
+  
+  header {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-2);
+  }
+  
+  nav ul {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  nav a {
+    display: block;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  dl {
+    grid-template-columns: 1fr;
+  }
+  
+  dt {
+    margin-top: var(--space-2);
+  }
+}
+
+/* Medium Screens (Tablets) - 768px and up
+   Increase body padding for better whitespace
+   Navigation can remain horizontal
+   */
+@media (min-width: 768px) {
+  body {
+    padding: var(--space-4);
+  }
+  
+  main {
+    grid-template-columns: 1fr;
+  }
+  
+  nav ul {
+    gap: var(--space-2);
+  }
+}
+
+/* Large Screens (Laptops/Desktops) - 1024px and up
+   Maximum comfortable body padding
+   Increased heading sizes for impact
+   Enhanced card padding
+   */
+@media (min-width: 1024px) {
+  body {
+    padding: var(--space-5);
+  }
+  
+  main {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  
+  h1 {
+    font-size: 3rem;
+  }
+  
+  .card {
+    padding: var(--space-4);
+  }
+}
+
+/* Extra Large Screens - 1280px and up
+   Optimized spacing for wide viewports
+*/
+@media (min-width: 1280px) {
+  main {
+    gap: var(--space-5);
+  }
+}
+
+/*
+   ACCESSIBILITY - Skip Links and Focus Management
+   Ensures keyboard and screen reader accessibility
+   */
+
+/* Skip to Content Link
+   Hidden off-screen by default
+   Becomes visible when focused via keyboard (Tab key)
+   Allows keyboard users to bypass navigation and jump to main content
+   Required for WCAG 2.1 Level A compliance
+   */
+a[href="#main"] {
+  position: absolute;
+  top: -999px;
+  left: -999px;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  padding: var(--space-2) var(--space-3);
+  z-index: 100;
+  font-weight: 700;
+  border-radius: 4px;
+  font-family: var(--font-sans);
+}
+
+/* Skip Link Focus State
+   Positions link at top-left when focused
+   High-contrast outline ensures visibility
+   */
+a[href="#main"]:focus { 
+  top: var(--space-2); 
+  left: var(--space-2);
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+

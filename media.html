@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Favorite Books — Media</title>
+  <meta name="description" content="Media related to my favorite books: images, audio, and video." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://example.com/media.html" />
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <a href="#main">Skip to content</a>
+
+  <header>
+    <h1>Favorite Books</h1>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="media.html" aria-current="page">Media</a></li>
+        <li><a href="extras.html">Extras</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <article>
+      <header>
+        <h2>Media Gallery</h2>
+      </header>
+
+      <section class="card">
+        <h3>Responsive Book Cover</h3>
+        <figure>
+          <picture>
+            <source srcset="assets/images/mountains-echoed-large.jpg" media="(min-width: 1000px)">
+            <source srcset="assets/images/mountains-echoed-medium.jpg" media="(min-width: 600px)">
+            <img src="assets/images/mountains-echoed-small.jpg" alt="Cover of And the Mountains Echoed by Khaled Hosseini, a story of family and echoes across generations">
+          </picture>
+          <figcaption>Responsive image using the <code>&lt;picture&gt;</code> element.</figcaption>
+        </figure>
+      </section>
+
+      <section class="card">
+        <h3>Audio of And the Mountains Echoed</h3>
+        <audio controls>
+          <source src="assets/audio/mountains-audio.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </section>
+
+      <section class="card">
+        <h3>Video Trailer of the book with Captions</h3>
+        <video controls width="640" poster="assets/images/mountains-echoed.jpg">
+          <source src="assets/video/mountains-video.mp4" type="video/mp4">
+          Sorry, your browser doesn't support embedded videos.
+          <track src="assets/captions/sample.vtt" kind="captions" srclang="en" label="English" default>
+        </video>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; <time datetime="2025">2025</time> Marsharine Njami. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>
