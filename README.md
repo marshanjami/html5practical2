@@ -24,7 +24,7 @@ This repository contains a personal website dedicated to my favorite book, *And 
 ## Docker
 - **Build Command**: `docker build -t marshanjami/html5-css3-site:lab2 .`
 - **Run Command**: `docker run --rm -p 8080:80 marshanjami/html5-css3-site:lab2`
-- **Push Command**: `docker push marshanjanmi/html5-css3-site:lab2`
+- **Push Command**: `docker push marshanjami/html5-css3-site:lab2`
 - **Tag Command**: `docker tag marshanjami/html5-css3-site:lab2 marshanjami/html5-css3-site:latest`
 - **Push Command**: `docker push marshanjami/html5-css3-site:latest`
 
